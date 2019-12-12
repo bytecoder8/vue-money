@@ -27,10 +27,7 @@
             :class="{invalid: $v.password.$error}"
         >
         <label for="password">Пароль</label>
-        <small 
-          class="helper-text invalid" 
-          v-if="$v.password.$error"
-        >Обязательное поле, минимальная длина {{$v.password.$params.minLength.min}} символов. 
+        <small class="helper-text invalid" v-if="$v.password.$error">Обязательное поле, минимальная длина {{$v.password.$params.minLength.min}} символов. 
         {{ password.length ? `Сейчас он ${password.length}` : ''}}
         </small>
       </div>
@@ -56,12 +53,18 @@
 
 <script>
 import { required, minLength, email } from 'vuelidate/lib/validators'
+import messages from '@/lang/messages'
 
 export default {
   data() {
     return {
       email: '',
       password: ''
+    }
+  },
+  mounted() {
+    if (this.$route.query.message in messages) {
+      this.$message(messages[this.$route.query.message])
     }
   },
   validations: {

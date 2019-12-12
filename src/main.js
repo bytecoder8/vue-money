@@ -5,10 +5,12 @@ import './registerServiceWorker'
 import router from './router'
 import store from './store'
 import dateFilter from '@/filters/date'
+import messagePlugin from '@/plugins/message'
 
 Vue.config.productionTip = false
 
 Vue.use(Vuelidate)
+Vue.use(messagePlugin)
 Vue.filter('date', dateFilter)
 
 new Vue({
