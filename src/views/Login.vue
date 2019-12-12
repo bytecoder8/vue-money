@@ -1,5 +1,5 @@
 <template>
-  <form class="card auth-card" @submit.prevent="submitHandler">
+  <form class="card auth-card" @submit.prevent="submitHandler" method="post">
     <div class="card-content">
       <span class="card-title">Домашняя бухгалтерия</span>
       <div class="input-field">
@@ -78,7 +78,7 @@ export default {
     }
   },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
@@ -87,8 +87,12 @@ export default {
           email: this.email,
           password: this.password
         }
-        console.log(formData)
-        this.$router.push('/')
+        try {
+          await this.$store.dispatch('login', formData)
+          this.$router.push('/')
+        } catch (e) {
+          //
+        }
       }
     }
   }
