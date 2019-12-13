@@ -28,6 +28,11 @@ export default {
     return {
       isMenuOpen: true
     }
+  },
+  async mounted() {
+    if (Object.keys(this.$store.getters.info).length === 0) {
+      await this.$store.dispatch('fetchInfo')
+    }
   }
 }
 </script>
