@@ -54,6 +54,7 @@
 
 <script>
 import { required, minLength, minValue } from 'vuelidate/lib/validators'
+import messages from '@/lang/messages'
 
 export default {
   data() {
@@ -82,22 +83,43 @@ export default {
       })
     }
   },
+  computed: {
+    canCreateRecord() {
+      if (this.categories.length === 0) {
+        return false
+      }
+      const type = this.categories.find( c => c.id === this.category).type
+      if (type !== 'income') {
+        return this.$store.getters.info.bill >= this.amount
+      }
+      return true
+    }
+  },
   methods: {
-    submitHandler() {
+    async submitHandler() {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
       }
 
-      try {
-        const recordData = {
-          name: this.name,
-          amount: this.amount,
-          category: this.category
+      if (this.canCreateRecord) {
+        try {
+          const recordData = {
+            name: this.name,
+            amount: this.amount,
+            categoryId: this.category,
+            date: new Date().toJSON()
+          }
+          await this.$store.dispatch('createRecord', recordData)
+          this.$message(messages['record-created'])
+          this.$v.$reset()
+          this.amount = 10
+          this.name = ''
+        } catch (e) {
+          //
         }
-        console.log('creating ', recordData)
-      } catch (e) {
-        //
+      } else {
+        this.$message('Недостаточно средств')
       }
     }
   }
