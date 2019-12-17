@@ -8,7 +8,7 @@
       <div class="input-field" >
         <select v-model="category" ref="select">
           <option v-for="c in categories" :key="c.id" :value="c.id"
-          >{{c.name}}</option>
+          >{{ c.type === 'income' ? '➕' : '➖' }} {{c.name}}</option>
         </select>
         <label>Выберите категорию</label>
         <span class="helper-text invalid" v-if="$v.category.$error">
@@ -16,11 +16,15 @@
         </span>
       </div>
 
+      <p>
+        <span>{{ type === 'income' ? 'Доход' : 'Расход' }}</span>
+      </p>
+
       <div class="input-field">
         <input
             id="amount"
             type="number"
-            v-model.trim="amount"
+            v-model.number="amount"
             :class="{invalid: $v.amount.$error}"
         >
         <label for="amount">Сумма</label>
@@ -63,7 +67,8 @@ export default {
       category: null,
       name: '',
       amount: null,
-      loading: true
+      loading: true,
+      type: null
     }
   },
   validations: {
@@ -83,13 +88,19 @@ export default {
       })
     }
   },
+  watch: {
+    category(categoryId) {
+      if (categoryId) {
+        this.type = this.categories.find( c => c.id === this.category).type
+      }
+    }
+  },
   computed: {
     canCreateRecord() {
       if (this.categories.length === 0) {
         return false
       }
-      const type = this.categories.find( c => c.id === this.category).type
-      if (type !== 'income') {
+      if (this.type !== 'income') {
         return this.$store.getters.info.bill >= this.amount
       }
       return true

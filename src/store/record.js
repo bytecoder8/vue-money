@@ -4,6 +4,7 @@ export default {
   actions: {
     async createRecord({ commit, dispatch, getters }, { name, amount, categoryId, date }) {
       try {
+        amount = +amount
         const uid = await dispatch('getUid')
         const record = await firebase.database()
           .ref(`/users/${uid}/categories/${categoryId}/records/`)
@@ -11,7 +12,7 @@ export default {
 
         await dispatch('fetchInfo')
         const category = await dispatch('fetchCategory', categoryId)
-        const bill = getters.info.bill + (category.type === 'income' ? amount : -amount)
+        const bill = +getters.info.bill + (category.type === 'income' ? amount : -amount)
         
         await dispatch('updateInfo', { bill })
         return { id: record.key, name, amount, categoryId, date }

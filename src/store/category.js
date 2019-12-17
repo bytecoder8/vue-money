@@ -16,6 +16,7 @@ export default {
     },
     async createCategory({ commit, dispatch }, { name, limit, type }) {
       try {
+        limit = +limit
         const uid = await dispatch('getUid')
         const category = await firebase.database().ref(`/users/${uid}/categories`).push({name, limit, type})
         return { id: category.key, name, limit, type }
@@ -26,6 +27,7 @@ export default {
     },
     async updateCategory({ commit, dispatch }, { name, limit, type, id }) {
       try {
+        limit = +limit
         const uid = await dispatch('getUid')
         await firebase.database().ref(`/users/${uid}/categories`).child(id).update({ name, limit, type })
       } catch (e) {
