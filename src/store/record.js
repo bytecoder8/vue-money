@@ -8,7 +8,7 @@ export default {
         const uid = await dispatch('getUid')
         const record = await firebase.database()
           .ref(`/users/${uid}/categories/${categoryId}/records/`)
-          .push({name, amount})
+          .push({ name, amount, date })
 
         await dispatch('fetchInfo')
         const category = await dispatch('fetchCategory', categoryId)
