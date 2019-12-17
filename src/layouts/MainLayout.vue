@@ -31,7 +31,11 @@ export default {
   },
   async mounted() {
     if (Object.keys(this.$store.getters.info).length === 0) {
-      await this.$store.dispatch('fetchInfo')
+      try {
+        await this.$store.dispatch('fetchInfo')
+      } catch (e) {
+        // 
+      }
     }
   }
 }

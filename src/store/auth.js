@@ -1,4 +1,5 @@
 import firebase from 'firebase/app'
+import router from '@/router'
 
 export default {
   actions: {
@@ -23,9 +24,13 @@ export default {
         throw e
       }
     },
-    getUid() {
+    getUid({ commit }) {
       const user = firebase.auth().currentUser
-      return user ? user.uid : null
+      if (!user) {
+        router.push('/login').catch(e => console.warn(e))
+        throw new Error('auth/lost')
+      }
+      return user.uid
     },
     async logout({commit}) {
       await firebase.auth().signOut()
