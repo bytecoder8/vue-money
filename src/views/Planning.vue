@@ -12,12 +12,12 @@
     </p>
 
     <section v-else>
-      <div v-for="cat in categories" :key="cat.id">
+      <div v-for="cat in categories" :key="cat.id" v-tooltip="cat.tooltip">
         <p>
           <strong>{{cat.name}}:</strong>
           {{cat.spend | currency}} из {{cat.limit | currency}}
         </p>
-        <div class="progress" >
+        <div class="progress">
           <div
               class="determinate" :class="cat.color"
               :style="{width: cat.percent + '%'}"
@@ -30,6 +30,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import currencyFilter from '@/filters/currency'
 
 export default {
   data() {
@@ -60,7 +61,10 @@ export default {
                 ? 'yellow'
                   : 'red'
 
-          return {...cat, spend, percent, color }
+          const left = cat.limit - spend
+          const tooltip = (left < 0 ? 'Превысили на ' : 'Осталось ') + currencyFilter(Math.abs(left))
+
+          return {...cat, spend, percent, color, tooltip }
         })
 
     } catch (e) {
