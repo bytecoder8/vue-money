@@ -106,21 +106,21 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
-      } else {
-        try {
-          const categoryData = {
-            name: this.name,
-            limit: this.limit,
-            type: this.type,
-            id: this.selectedCategory
-          }
-          await this.$store.dispatch('updateCategory', categoryData)
+      }
 
-          this.$message('Категория была обновлена')
-          this.$emit('updated', categoryData)
-        } catch (e) {
-          //
+      try {
+        const categoryData = {
+          name: this.name,
+          limit: this.limit,
+          type: this.type,
+          id: this.selectedCategory
         }
+        await this.$store.dispatch('updateCategory', categoryData)
+
+        this.$message('Категория была обновлена')
+        this.$emit('updated', categoryData)
+      } catch (e) {
+        //
       }
     }
   },
@@ -130,7 +130,7 @@ export default {
     }
     setTimeout(() => window.M.FormSelect.init(this.$refs.select))
   },
-  destroy() {
+  destroyed() {
     if (this.select && this.select.destroy) {
       this.select.destroy()
     }
