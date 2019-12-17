@@ -4,6 +4,11 @@
       <h3>Новая запись</h3>
     </div>
     <Loader v-if="loading" />
+    
+    <p v-else-if="!categories.length" class="center">
+      Категорий пока нет. <router-link to="/categories">Добавить новую</router-link>
+    </p>
+    
     <form v-else class="form" method="post" @submit.prevent="submitHandler">
       <div class="input-field" >
         <select v-model="category" ref="select">

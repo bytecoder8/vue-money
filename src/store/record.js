@@ -20,6 +20,22 @@ export default {
         commit('setError', e)
         throw e
       }
-    }
+    },
+    async fetchRecords({ dispatch, commit }) {
+      try {
+        const uid = await dispatch('getUid')
+        let categories = await dispatch('fetchCategories')
+        const records = []
+        for (let cat of categories) {
+          for (let key in cat.records) {
+            records.push({ ...cat.records[key], categoryId: cat.id, id: key })
+          }
+        }
+        return records
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
+    },
   }
 }
