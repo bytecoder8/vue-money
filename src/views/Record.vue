@@ -48,7 +48,7 @@
         </span>
       </div>
 
-      <button class="btn waves-effect waves-light" type="submit">
+      <button class="btn waves-effect waves-light" type="submit" :disabled="this.sending">
         Создать
         <i class="material-icons right">send</i>
       </button>
@@ -67,8 +67,9 @@ export default {
       category: null,
       name: '',
       amount: null,
+      type: null,
       loading: true,
-      type: null
+      sending: false
     }
   },
   validations: {
@@ -113,6 +114,7 @@ export default {
         return
       }
 
+      this.sending = true
       if (this.canCreateRecord) {
         try {
           const recordData = {
@@ -132,6 +134,7 @@ export default {
       } else {
         this.$message('Недостаточно средств')
       }
+      this.sending = false
     }
   }
 }

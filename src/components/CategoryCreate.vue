@@ -45,7 +45,7 @@
           </span>
         </p>
 
-        <button class="btn waves-effect waves-light" type="submit">
+        <button class="btn waves-effect waves-light" type="submit" :disabled="this.sending">
           Создать
           <i class="material-icons right">send</i>
         </button>
@@ -61,7 +61,8 @@ export default {
     return {
       name: '',
       limit: 100,
-      type: 'income'
+      type: 'income',
+      sending: false
     }
   },
   validations: {
@@ -79,24 +80,25 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
-      } else {
-        try {
-          const category = await this.$store.dispatch('createCategory', {
-            name: this.name,
-            limit: this.limit,
-            type: this.type
-          })
-
-          this.name = ''
-          this.limit = 100
-          this.$v.$reset()
-
-          this.$message('Категория была создана')
-          this.$emit('created', category)
-        } catch (e) {
-          //
-        }
       }
+      this.sending = true
+      try {
+        const category = await this.$store.dispatch('createCategory', {
+          name: this.name,
+          limit: this.limit,
+          type: this.type
+        })
+
+        this.name = ''
+        this.limit = 100
+        this.$v.$reset()
+
+        this.$message('Категория была создана')
+        this.$emit('created', category)
+      } catch (e) {
+        //
+      }
+      this.sending = false
     }
   }
 }

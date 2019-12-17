@@ -54,7 +54,7 @@
           </span>
         </p>
 
-        <button class="btn waves-effect waves-light" type="submit">
+        <button class="btn waves-effect waves-light" type="submit" :disabled="this.sending">
           Обновить
           <i class="material-icons right">send</i>
         </button>
@@ -73,7 +73,8 @@ export default {
       selectedCategory: null,
       name: '',
       limit: 100,
-      type: 'income'
+      type: 'income',
+      sending: false
     }
   },
   props: {
@@ -108,6 +109,7 @@ export default {
         return
       }
 
+      this.sending = true
       try {
         const categoryData = {
           name: this.name,
@@ -122,6 +124,7 @@ export default {
       } catch (e) {
         //
       }
+      this.sending = false
     }
   },
   mounted() {

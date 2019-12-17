@@ -56,7 +56,7 @@
       <div>
         <button
             class="btn waves-effect waves-light auth-submit"
-            type="submit"
+            type="submit" :disabled="this.sending"
         >
           Зарегистрироваться
           <i class="material-icons right">send</i>
@@ -80,7 +80,8 @@ export default {
       email: '',
       password: '',
       name: '',
-      agree: false
+      agree: false,
+      sending: false
     }
   },
   validations: {
@@ -105,19 +106,21 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
-      } else {
-        const formData = {
-          email: this.email,
-          password: this.password,
-          name: this.name
-        }
-        try {
-          await this.$store.dispatch('register', formData)
-          this.$router.push('/')
-        } catch (e) {
-          //
-        }
       }
+
+      this.sending = true
+      const formData = {
+        email: this.email,
+        password: this.password,
+        name: this.name
+      }
+      try {
+        await this.$store.dispatch('register', formData)
+        this.$router.push('/')
+      } catch (e) {
+        //
+      }
+      this.sending = false
     }
   } 
 }

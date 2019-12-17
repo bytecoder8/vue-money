@@ -36,7 +36,7 @@
       <div>
         <button
             class="btn waves-effect waves-light auth-submit"
-            type="submit"
+            type="submit" :disabled="this.sending"
         >
           Войти
           <i class="material-icons right">send</i>
@@ -59,7 +59,8 @@ export default {
   data() {
     return {
       email: '',
-      password: ''
+      password: '',
+      sending: false
     }
   },
   mounted() {
@@ -82,18 +83,20 @@ export default {
       this.$v.$touch()
       if (this.$v.$invalid) {
         return
-      } else {
-        const formData = {
-          email: this.email,
-          password: this.password
-        }
-        try {
-          await this.$store.dispatch('login', formData)
-          this.$router.push('/')
-        } catch (e) {
-          //
-        }
       }
+
+      this.sending = true
+      const formData = {
+        email: this.email,
+        password: this.password
+      }
+      try {
+        await this.$store.dispatch('login', formData)
+        this.$router.push('/')
+      } catch (e) {
+        //
+      }
+      this.sending = false
     }
   }
 }
