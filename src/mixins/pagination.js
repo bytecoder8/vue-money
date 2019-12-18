@@ -17,7 +17,6 @@ export default {
       this.pagination.items = this.pagination.allItems[this.pagination.page - 1] || this.pagination.allItems[0]
     },
     pageChangeHandler(newPage) {
-      this.$router.push(`${this.$route.path}?page=${newPage}`)
       this.pagination.items = this.pagination.allItems[newPage - 1] || this.pagination.allItems[0]
     }
   }

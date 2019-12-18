@@ -17,7 +17,7 @@
         <Paginate 
           v-model="pagination.page"
           :page-count="pagination.pageCount"
-          :click-handler="pageChangeHandler"
+          :click-handler="onPageChanged"
           :prev-text="'<i class=\'material-icons\'>chevron_left</i>'"
           :next-text="'<i class=\'material-icons\'>chevron_right</i>'"
           :container-class="'pagination'"
@@ -45,8 +45,8 @@ export default {
       categories: [],
       loading: true,
       sort: {
-        column: null,
-        dir: 1
+        column: this.$route.query['sort.column'] || null,
+        dir: this.$route.query['sort.dir'] || 1
       },
     }
   },
@@ -68,6 +68,9 @@ export default {
           type: category.type
         }
       })
+      if (this.sort.column) {
+        this.sortRecords(this.sort.column)
+      }
     } catch (e) {
       //
     }
@@ -79,12 +82,7 @@ export default {
     }
   },
   methods: {
-    handleSortChange(column) {
-      if (this.sort.column === column) {
-        this.sort.dir = -this.sort.dir
-      }
-      this.sort.column = column
-
+    sortRecords(column) {
       this.records.sort( (a, b) => {
         if (a[column] > b[column]) {
           return +this.sort.dir * 1
@@ -94,6 +92,31 @@ export default {
         }
         return 0
       })
+    },
+    handleSortChange(column) {
+      if (this.sort.column === column) {
+        this.sort.dir = -this.sort.dir
+      }
+      this.sort.column = column
+
+      this.sortRecords(this.sort.column)
+
+      // update url
+      this.$router.push(`${this.$route.path}?page=${this.pagination.page}&sort.column=${this.sort.column}&sort.dir=${this.sort.dir}`)
+    },
+    onPageChanged(page) {
+      this.pageChangeHandler(page) // from mixin
+      this.updateUrl(page)
+    },
+    updateUrl(page) {
+      let newUrl = `${this.$route.path}?page=${page}`
+      if (this.sort.column) {
+        newUrl += `&sort.column=${this.sort.column}`
+        if (this.sort.dir) {
+          newUrl += `&sort.dir=${this.sort.dir}`
+        }
+      }
+      this.$router.push(newUrl)
     }
   },
   components: {
