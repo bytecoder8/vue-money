@@ -7,8 +7,8 @@ export default {
         amount = +amount
         const uid = await dispatch('getUid')
         const record = await firebase.database()
-          .ref(`/users/${uid}/categories/${categoryId}/records/`)
-          .push({ name, amount, date })
+          .ref(`/users/${uid}/records/`)
+          .push({ name, amount, date, categoryId })
 
         await dispatch('fetchInfo')
         const category = await dispatch('fetchCategory', categoryId)
@@ -24,18 +24,14 @@ export default {
     async fetchRecords({ dispatch, commit }) {
       try {
         const uid = await dispatch('getUid')
-        let categories = await dispatch('fetchCategories')
-        const records = []
-        for (let cat of categories) {
-          for (let key in cat.records) {
-            records.push({ ...cat.records[key], categoryId: cat.id, id: key })
-          }
-        }
-        return records
+        const records = (await firebase.database().ref(`/users/${uid}/records`).once('value')).val() || {}
+        return Object.keys(records).map(key => ({
+          ...records[key], id: key
+        }))
       } catch (e) {
         commit('setError', e)
         throw e
       }
-    },
+    }
   }
 }

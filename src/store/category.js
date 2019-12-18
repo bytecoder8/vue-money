@@ -44,6 +44,6 @@ export default {
         commit('setError', e)
         throw e
       }
-    },
+    }    
   }
 }
