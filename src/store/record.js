@@ -11,7 +11,7 @@ export default {
           .push({ name, amount, date, categoryId })
 
         await dispatch('fetchInfo')
-        const category = await dispatch('fetchCategory', categoryId)
+        const category = await dispatch('fetchCategoryById', categoryId)
         const bill = +getters.info.bill + (category.type === 'income' ? amount : -amount)
         
         await dispatch('updateInfo', { bill })
@@ -28,6 +28,16 @@ export default {
         return Object.keys(records).map(key => ({
           ...records[key], id: key
         }))
+      } catch (e) {
+        commit('setError', e)
+        throw e
+      }
+    },
+    async fetchRecordById({ dispatch, commit }, id) {
+      try {
+        const uid = await dispatch('getUid')
+        const record = (await firebase.database().ref(`/users/${uid}/records/${id}`).once('value')).val()
+        return {...record, id: record.key}
       } catch (e) {
         commit('setError', e)
         throw e
