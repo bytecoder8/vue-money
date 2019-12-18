@@ -7,8 +7,9 @@
     <Loader v-if="loading" />
     
     <div v-else-if="records.length">
-      <div class="history-chart">
-        <canvas></canvas>
+      <div class="history-charts">
+        <HistoryChart class="history-charts__chart" :categories="categories" :records="records" type="income" />
+        <HistoryChart class="history-charts__chart" :categories="categories" :records="records" type="charge" />
       </div>
 
       <section>
@@ -36,6 +37,7 @@
 <script>
 import paginationMixin from '@/mixins/pagination'
 import HistoryTable from '@/components/HistoryTable'
+import HistoryChart from '@/components/HistoryChart'
 
 export default {
   mixins: [paginationMixin],
@@ -120,7 +122,7 @@ export default {
     }
   },
   components: {
-    HistoryTable
+    HistoryTable, HistoryChart
   }
 }
 </script>
