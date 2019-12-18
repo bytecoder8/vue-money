@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
+import Paginate from 'vuejs-paginate'
 import App from './App.vue'
 import Loader from '@/components/app/Loader'
 import './registerServiceWorker'
@@ -18,6 +19,7 @@ import firebaseConfig from './firebaseConfig'
 Vue.config.productionTip = false
 
 Vue.use(Vuelidate)
+Vue.component('Paginate', Paginate)
 Vue.use(messagePlugin)
 Vue.filter('date', dateFilter)
 Vue.filter('currency', currencyFilter)

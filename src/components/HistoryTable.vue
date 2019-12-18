@@ -36,14 +36,13 @@ export default {
     records: {
       required: true,
       type: Array
+    },
+    sort: {
+      type: Object
     }
   },
   data() {
     return {
-      sort: {
-        column: null,
-        dir: 1
-      },
       columns: [
         [ 'amount', 'Сумма' ],
         [ 'date', 'Дата' ],
@@ -54,20 +53,7 @@ export default {
   },
   methods: {
     changeSort(column) {
-      if (this.sort.column === column) {
-        this.sort.dir = -this.sort.dir
-      }
-      this.sort.column = column
-
-      this.records.sort( (a, b) => {
-        if (a[column] > b[column]) {
-          return +this.sort.dir * 1
-        }
-        if (a[column] < b[column]) {
-          return -this.sort.dir * 1
-        }
-        return 0
-      })
+      this.$emit('sortChanged', column)
     }
   }
 }
