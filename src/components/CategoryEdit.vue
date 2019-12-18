@@ -9,7 +9,7 @@
         <div class="input-field" >
           <select ref="select" v-model="selectedCategory">
             <option v-for="c in categories" :key="c.id" :value="c.id">
-              {{ c.type === 'income' ? '+' : '-' }} {{c.name}}
+              {{ c.type === 'income' ? '➕' : '➖' }} {{c.name}}
             </option>
           </select>
           <label>Выберите категорию</label>

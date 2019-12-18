@@ -13,7 +13,7 @@
         <small 
           class="helper-text invalid" 
           v-if="$v.email.$dirty && !$v.email.required"
-        >Обязательное поле</small>
+        >Введите email</small>
         <small 
           class="helper-text invalid" 
           v-else-if="$v.email.$dirty && !$v.email.email"
@@ -27,9 +27,7 @@
             :class="{invalid: $v.password.$error}"
         >
         <label for="password">Пароль</label>
-        <small class="helper-text invalid" v-if="$v.password.$error">Обязательное поле, минимальная длина {{$v.password.$params.minLength.min}} символов. 
-        {{ password.length ? `Сейчас он ${password.length}` : ''}}
-        </small>
+        <small class="helper-text invalid" v-if="$v.password.$error">Введите пароль</small>
       </div>
     </div>
     <div class="card-action">
@@ -52,7 +50,7 @@
 </template>
 
 <script>
-import { required, minLength, email } from 'vuelidate/lib/validators'
+import { required, email } from 'vuelidate/lib/validators'
 import messages from '@/lang/messages'
 
 export default {
@@ -74,8 +72,7 @@ export default {
       email,
     },
     password: {
-      required,
-      minLength: minLength(6)
+      required
     }
   },
   methods: {

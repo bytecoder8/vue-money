@@ -22,20 +22,16 @@ export default new Vuex.Store({
   actions: {
     async fetchCurrency({commit}) {
       try {
-        const currency = await new Promise((resolve, reject) => setTimeout(() => {
-          if (Math.random() > 0.5) {
-            reject(new Error('currency-error'))
-          } else {
-            resolve({
-                rates: {
-                  'RUB': 1,
-                  'EUR': 77,
-                  'USD': 64
-                },
-                date: new Date()
-              })
-          }
-        }, 300))
+        let response = await fetch('https://www.cbr-xml-daily.ru/daily_json.js')
+        const data = await response.json()
+        const currency = {
+          rates: {
+            'RUB': 1,
+            'EUR': data['Valute']['EUR']['Value'],
+            'USD': data['Valute']['USD']['Value']
+          },
+          date: new Date(data['Date'])
+        }
         return currency
       } catch (e) {
         commit('setError', e)
