@@ -12,14 +12,16 @@ const routes = [
     component: Home,
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Главная',
     }
   },
   {
     path: '/login',
     name: 'login',
     meta: {
-      layout: 'empty'
+      layout: 'empty',
+      title: 'Вход',
     },
     component: () => import('../views/Login.vue')
   },
@@ -27,7 +29,8 @@ const routes = [
     path: '/register',
     name: 'register',
     meta: {
-      layout: 'empty'
+      layout: 'empty',
+      title: 'Регистрация',
     },
     component: () => import('../views/Register.vue')
   },
@@ -36,7 +39,8 @@ const routes = [
     name: 'categories',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Категории',
     },
     component: () => import('../views/Categories.vue')
   },
@@ -45,7 +49,8 @@ const routes = [
     name: 'history',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'История',
     },
     component: () => import('../views/History.vue')
   },
@@ -54,7 +59,8 @@ const routes = [
     name: 'planning',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Планирование',
     },
     component: () => import('../views/Planning.vue')
   },
@@ -63,7 +69,8 @@ const routes = [
     name: 'record',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Добавить запись',
     },
     component: () => import('../views/Record.vue')
   },
@@ -72,7 +79,8 @@ const routes = [
     name: 'detail',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Страница записи',
     },
     component: () => import('../views/RecordDetail.vue')
   },
@@ -81,7 +89,8 @@ const routes = [
     name: 'profile',
     meta: {
       layout: 'main',
-      auth: true
+      auth: true,
+      title: 'Профиль',
     },
     component: () => import('../views/Profile.vue')
   },
@@ -90,6 +99,7 @@ const routes = [
     name: 'about',
     meta: {
       layout: 'main',
+      title: 'О программе',
     },
     component: () => import('../views/About.vue')
   }
@@ -113,6 +123,12 @@ router.beforeEach((to, from, next) => {
   } else {
     next()
   }
+})
+
+router.afterEach((to) => {
+  const appTitle = process.env.VUE_APP_TITLE
+  const title = (to.meta && to.meta.title) || 'Страница'
+  document.title = `${title} | ${appTitle}`
 })
 
 export default router
