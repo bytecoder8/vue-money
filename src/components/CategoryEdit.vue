@@ -110,20 +110,18 @@ export default {
       }
 
       this.sending = true
-      try {
-        const categoryData = {
-          name: this.name,
-          limit: this.limit,
-          type: this.type,
-          id: this.selectedCategory
-        }
-        await this.$store.dispatch('updateCategory', categoryData)
 
-        this.$message('Категория была обновлена')
-        this.$emit('updated', categoryData)
-      } catch (e) {
-        console.warn(e)
+      const categoryData = {
+        name: this.name,
+        limit: this.limit,
+        type: this.type,
+        id: this.selectedCategory
       }
+      await this.$store.dispatch('updateCategory', categoryData)
+
+      this.$message('Категория была обновлена')
+      this.$emit('updated', categoryData)
+
       this.sending = false
     }
   },

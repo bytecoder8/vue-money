@@ -42,11 +42,7 @@ export default {
   },
   async mounted() {
     if (Object.keys(this.$store.state.info.info).length === 0) {
-      try {
-        await this.$store.dispatch('fetchInfo')
-      } catch (e) {
-        console.warn(e) 
-      }
+      await this.$store.dispatch('fetchInfo')
     }
     this.name = this.$store.state.info.info.name
     this.$nextTick( () => window.M.updateTextFields() )
@@ -59,11 +55,8 @@ export default {
       }
 
       this.sending = true
-      try {
-        await this.$store.dispatch('updateInfo', { name: this.name })
-      } catch (e) {
-        console.warn(e)
-      }
+      await this.$store.dispatch('updateInfo', { name: this.name })
+
       this.$message('Профиль обновлен')
       this.sending = false
     }

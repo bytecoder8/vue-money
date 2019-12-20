@@ -114,12 +114,10 @@ export default {
         password: this.password,
         name: this.name
       }
-      try {
-        await this.$store.dispatch('register', formData)
-        this.$router.push('/')
-      } catch (e) {
-        console.warn(e)
-      }
+      
+      await this.$store.dispatch('register', formData)
+      this.$router.push('/')
+
       this.sending = false
     }
   } 

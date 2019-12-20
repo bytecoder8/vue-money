@@ -36,11 +36,9 @@ export default {
       if (!this.loading) {
         this.loading = true
       }
-      try {
-        this.currency = await this.$store.dispatch('fetchCurrency')
-      } catch (e) {
-        console.warn(e)
-      }
+      
+      this.currency = await this.$store.dispatch('fetchCurrency')
+
       this.loading = false
     },
     refresh() {

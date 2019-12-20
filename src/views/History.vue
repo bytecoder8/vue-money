@@ -53,29 +53,26 @@ export default {
     }
   },
   async mounted() {
-    try {
-      this.categories = await this.$store.dispatch('fetchCategories')
-      const records = await this.$store.dispatch('fetchRecords')
+    this.categories = await this.$store.dispatch('fetchCategories')
+    const records = await this.$store.dispatch('fetchRecords')
 
-      const categoriesById = this.categories.reduce( (res, val) => {
-        res[val.id] = val
-        return res
-      }, {})
+    const categoriesById = this.categories.reduce( (res, val) => {
+      res[val.id] = val
+      return res
+    }, {})
 
-      this.records = records.map( record => {
-        const category = categoriesById[record.categoryId]
-        return {
-          ...record,
-          categoryName: category.name,
-          type: category.type
-        }
-      })
-      if (this.sort.column) {
-        this.sortRecords(this.sort.column)
+    this.records = records.map( record => {
+      const category = categoriesById[record.categoryId]
+      return {
+        ...record,
+        categoryName: category.name,
+        type: category.type
       }
-    } catch (e) {
-      console.warn(e)
+    })
+    if (this.sort.column) {
+      this.sortRecords(this.sort.column)
     }
+
     this.loading = false
   },
   watch: {

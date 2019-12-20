@@ -125,21 +125,18 @@ export default {
 
       this.sending = true
       if (this.canCreateRecord) {
-        try {
-          const recordData = {
-            name: this.name,
-            amount: this.amount,
-            categoryId: this.category,
-            date: new Date().toJSON()
-          }
-          await this.$store.dispatch('createRecord', recordData)
-          this.$message(messages['record-created'])
-          this.$v.$reset()
-          this.amount = 10
-          this.name = ''
-        } catch (e) {
-          console.warn(e)
+        const recordData = {
+          name: this.name,
+          amount: this.amount,
+          categoryId: this.category,
+          date: new Date().toJSON()
         }
+        await this.$store.dispatch('createRecord', recordData)
+        this.$message(messages['record-created'])
+        this.$v.$reset()
+        this.amount = 10
+        this.name = ''
+
       } else {
         this.$message('Недостаточно средств')
       }

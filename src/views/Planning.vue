@@ -45,33 +45,29 @@ export default {
     })
   },
   async mounted() {
-    try {
-      const categories = await this.$store.dispatch('fetchCategories')
-      const records = await this.$store.dispatch('fetchRecords')
+    const categories = await this.$store.dispatch('fetchCategories')
+    const records = await this.$store.dispatch('fetchRecords')
 
-      this.categories = categories
-        .filter(cat => cat.type === 'charge')
-        .map( cat => {
-          const spend = records
-            .filter(record => record.categoryId === cat.id)
-            .reduce((total, record) => total += +record.amount, 0)
+    this.categories = categories
+      .filter(cat => cat.type === 'charge')
+      .map( cat => {
+        const spend = records
+          .filter(record => record.categoryId === cat.id)
+          .reduce((total, record) => total += +record.amount, 0)
 
-          const percent = Math.min(spend / cat.limit * 100, 100)
-          const color = percent < 60 
-            ? 'green'
-              : percent < 100
-                ? 'yellow'
-                  : 'red'
+        const percent = Math.min(spend / cat.limit * 100, 100)
+        const color = percent < 60 
+          ? 'green'
+            : percent < 100
+              ? 'yellow'
+                : 'red'
 
-          const left = cat.limit - spend
-          const tooltip = (left < 0 ? 'Превысили на ' : 'Осталось ') + currencyFilter(Math.abs(left))
+        const left = cat.limit - spend
+        const tooltip = (left < 0 ? 'Превысили на ' : 'Осталось ') + currencyFilter(Math.abs(left))
 
-          return {...cat, spend, percent, color, tooltip }
-        })
+        return {...cat, spend, percent, color, tooltip }
+      })
 
-    } catch (e) {
-      console.warn(e)
-    }
     this.loading = false
   }
 }

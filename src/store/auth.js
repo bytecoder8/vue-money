@@ -27,7 +27,7 @@ export default {
     getUid({ commit }) {
       const user = firebase.auth().currentUser
       if (!user) {
-        router.push('/login').catch(e => console.warn(e))
+        router.push('/login').catch(e => false)
         throw new Error('auth/lost')
       }
       return user.uid

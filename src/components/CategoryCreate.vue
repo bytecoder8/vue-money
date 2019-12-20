@@ -82,22 +82,20 @@ export default {
         return
       }
       this.sending = true
-      try {
-        const category = await this.$store.dispatch('createCategory', {
-          name: this.name,
-          limit: this.limit,
-          type: this.type
-        })
+      
+      const category = await this.$store.dispatch('createCategory', {
+        name: this.name,
+        limit: this.limit,
+        type: this.type
+      })
 
-        this.name = ''
-        this.limit = 100
-        this.$v.$reset()
+      this.name = ''
+      this.limit = 100
+      this.$v.$reset()
 
-        this.$message('Категория была создана')
-        this.$emit('created', category)
-      } catch (e) {
-        console.warn(e)
-      }
+      this.$message('Категория была создана')
+      this.$emit('created', category)
+
       this.sending = false
     }
   }

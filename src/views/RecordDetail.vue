@@ -35,13 +35,10 @@ export default {
     }
   },
   async mounted() {
-    try {
-      const record = await this.$store.dispatch('fetchRecordById', this.$route.params.id)
-      const category = await this.$store.dispatch('fetchCategoryById', record.categoryId)
-      this.record = {...record, type: category.type, categoryName: category.name}
-    } catch (e) {
-      console.warn(e)
-    }
+    const record = await this.$store.dispatch('fetchRecordById', this.$route.params.id)
+    const category = await this.$store.dispatch('fetchCategoryById', record.categoryId)
+    this.record = {...record, type: category.type, categoryName: category.name}
+
     this.loading = false
   }
 }

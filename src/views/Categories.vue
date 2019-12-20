@@ -28,12 +28,8 @@ export default {
     }
   },
   async mounted() {
-    try {
-      this.categories = await this.$store.dispatch('fetchCategories')
-      this.loading = false
-    } catch(e) {
-      console.warn(e)
-    }
+    this.categories = await this.$store.dispatch('fetchCategories')
+    this.loading = false
   },
   methods: {
     addCategory(category) {

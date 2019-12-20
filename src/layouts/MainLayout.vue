@@ -37,11 +37,7 @@ export default {
   },
   async mounted() {
     if (Object.keys(this.info).length === 0) {
-      try {
-        await this.$store.dispatch('fetchInfo')
-      } catch (e) {
-        console.warn(e) 
-      }
+      await this.$store.dispatch('fetchInfo')
     }
   }
 }
