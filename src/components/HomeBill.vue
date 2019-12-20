@@ -13,6 +13,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -23,9 +25,9 @@ export default {
     rates: Object
   },
   computed: {
-    bill() {
-      return this.$store.getters.info.bill
-    }
+    ...mapState({
+      bill: state => state.info.info.bill
+    })
   },
   methods: {
     getInCurrency(currency) {

@@ -17,6 +17,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import Navbar from '@/components/app/Navbar'
 import Sidebar from '@/components/app/Sidebar'
 
@@ -29,12 +30,17 @@ export default {
       isMenuOpen: true
     }
   },
+  computed: {
+    ...mapState({
+      info: state => state.info.info
+    })
+  },
   async mounted() {
-    if (Object.keys(this.$store.getters.info).length === 0) {
+    if (Object.keys(this.info).length === 0) {
       try {
         await this.$store.dispatch('fetchInfo')
       } catch (e) {
-        // 
+        console.warn(e) 
       }
     }
   }

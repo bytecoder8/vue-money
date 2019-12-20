@@ -40,7 +40,7 @@ export default {
       const category = await this.$store.dispatch('fetchCategoryById', record.categoryId)
       this.record = {...record, type: category.type, categoryName: category.name}
     } catch (e) {
-      //
+      console.warn(e)
     }
     this.loading = false
   }

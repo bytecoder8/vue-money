@@ -122,7 +122,7 @@ export default {
         this.$message('Категория была обновлена')
         this.$emit('updated', categoryData)
       } catch (e) {
-        //
+        console.warn(e)
       }
       this.sending = false
     }

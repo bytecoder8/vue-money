@@ -40,6 +40,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   data() {
     return {
@@ -49,9 +51,9 @@ export default {
     }
   },
   computed: {
-    name() {
-      return this.$store.getters.info.name
-    }
+    ...mapState({
+      name: state => state.info.info.name
+    })
   },
   mounted() {
     this.dropdown = window.M.Dropdown.init(this.$refs.dropdown, {

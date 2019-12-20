@@ -62,6 +62,7 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { required, minLength, minValue } from 'vuelidate/lib/validators'
 import messages from '@/lang/messages'
 
@@ -102,12 +103,15 @@ export default {
     }
   },
   computed: {
+    ...mapState({
+      info: state => state.info.info
+    }),
     canCreateRecord() {
       if (this.categories.length === 0) {
         return false
       }
       if (this.type !== 'income') {
-        return this.$store.getters.info.bill >= this.amount
+        return this.info.bill >= this.amount
       }
       return true
     }
@@ -134,7 +138,7 @@ export default {
           this.amount = 10
           this.name = ''
         } catch (e) {
-          //
+          console.warn(e)
         }
       } else {
         this.$message('Недостаточно средств')

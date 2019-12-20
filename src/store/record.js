@@ -2,7 +2,7 @@ import firebase from 'firebase/app'
 
 export default {
   actions: {
-    async createRecord({ commit, dispatch, getters }, { name, amount, categoryId, date }) {
+    async createRecord({ commit, dispatch, rootState }, { name, amount, categoryId, date }) {
       try {
         amount = +amount
         const uid = await dispatch('getUid')
@@ -11,8 +11,9 @@ export default {
           .push({ name, amount, date, categoryId })
 
         await dispatch('fetchInfo')
+
         const category = await dispatch('fetchCategoryById', categoryId)
-        const bill = +getters.info.bill + (category.type === 'income' ? amount : -amount)
+        const bill = +rootState.info.info.bill + (category.type === 'income' ? amount : -amount)
         
         await dispatch('updateInfo', { bill })
         return { id: record.key, name, amount, categoryId, date }

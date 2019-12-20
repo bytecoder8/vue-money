@@ -32,7 +32,7 @@ export default {
       this.categories = await this.$store.dispatch('fetchCategories')
       this.loading = false
     } catch(e) {
-      //
+      console.warn(e)
     }
   },
   methods: {

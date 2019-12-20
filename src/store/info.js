@@ -23,21 +23,16 @@ export default {
         throw e
       }
     },
-    async updateInfo({ commit, dispatch, getters }, toUpdate) {
+    async updateInfo({ commit, dispatch, state }, toUpdate) {
       try {
         const uid = await dispatch('getUid')
-        const updateData = {...getters.info, ...toUpdate}
+        const updateData = {...state.info, ...toUpdate}
         await firebase.database().ref(`/users/${uid}/info`).update(updateData)
         commit('setInfo', updateData)      
       } catch (e) {
         commit('setError', e)
         throw e
       }
-    }
-  },
-  getters: {
-    info(state) {
-      return state.info
     }
   }
 }

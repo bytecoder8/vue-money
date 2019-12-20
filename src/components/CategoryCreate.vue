@@ -96,7 +96,7 @@ export default {
         this.$message('Категория была создана')
         this.$emit('created', category)
       } catch (e) {
-        //
+        console.warn(e)
       }
       this.sending = false
     }

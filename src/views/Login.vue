@@ -91,7 +91,7 @@ export default {
         await this.$store.dispatch('login', formData)
         this.$router.push('/')
       } catch (e) {
-        //
+        console.warn(e)
       }
       this.sending = false
     }

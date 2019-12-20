@@ -25,13 +25,14 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
 import { required } from 'vuelidate/lib/validators'
 
 export default {
   data() {
     return {
       sending: false,
-      name: this.$store.getters.info.name
+      name: ''
     }
   },
   validations: {
@@ -40,13 +41,14 @@ export default {
     }
   },
   async mounted() {
-    if (Object.keys(this.$store.getters.info).length === 0) {
+    if (Object.keys(this.$store.state.info.info).length === 0) {
       try {
         await this.$store.dispatch('fetchInfo')
       } catch (e) {
-        // 
+        console.warn(e) 
       }
     }
+    this.name = this.$store.state.info.info.name
     this.$nextTick( () => window.M.updateTextFields() )
   },
   methods: {
@@ -60,7 +62,7 @@ export default {
       try {
         await this.$store.dispatch('updateInfo', { name: this.name })
       } catch (e) {
-        //
+        console.warn(e)
       }
       this.$message('Профиль обновлен')
       this.sending = false

@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapState } from 'vuex'
 import currencyFilter from '@/filters/currency'
 
 export default {
@@ -40,7 +40,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['info'])
+    ...mapState({
+      info: state => state.info.info
+    })
   },
   async mounted() {
     try {

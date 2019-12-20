@@ -74,7 +74,7 @@ export default {
         this.sortRecords(this.sort.column)
       }
     } catch (e) {
-      //
+      console.warn(e)
     }
     this.loading = false
   },
